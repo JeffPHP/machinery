@@ -3,6 +3,7 @@ package machinery
 import (
 	"errors"
 	"fmt"
+	"github.com/RichardKnop/machinery/v1/backends/iface"
 	"net/url"
 	"os"
 	"os/signal"
@@ -30,14 +31,14 @@ type Worker struct {
 	preTaskHandler    func(*tasks.Signature)
 	postTaskHandler   func(*tasks.Signature)
 	preConsumeHandler func(*Worker) bool
-	timeOutFunc       func(*tasks.Signature) int
+	timeOutHandler    func(*tasks.Signature) int
 }
 
 var (
-	// ErrWorkerQuitGracefully is return when worker quit gracefully
-	ErrWorkerQuitGracefully = errors.New("Worker quit gracefully")
-	// ErrWorkerQuitGracefully is return when worker quit abruptly
-	ErrWorkerQuitAbruptly = errors.New("Worker quit abruptly")
+	// ErrWorkerQuitGracefully is returned when worker quit gracefully
+	ErrWorkerQuitGracefully = errors.New("worker quit gracefully")
+	// ErrWorkerQuitAbruptly is returned when worker quit abruptly
+	ErrWorkerQuitAbruptly = errors.New("worker quit abruptly")
 )
 
 // Launch starts a new worker process. The worker subscribes
@@ -76,9 +77,9 @@ func (worker *Worker) LaunchAsync(errorsChan chan<- error) {
 	// Goroutine to start broker consumption and handle retries when broker connection dies
 	go func() {
 		for {
-			retry, err := broker.StartConsuming(worker.ConsumerTag, worker.Concurrency, worker)
+			shouldRetry, err := broker.StartConsuming(worker.ConsumerTag, worker.Concurrency, worker)
 
-			if retry {
+			if shouldRetry {
 				if worker.errorHandler != nil {
 					worker.errorHandler(err)
 				} else {
@@ -153,7 +154,7 @@ func (worker *Worker) Process(signature *tasks.Signature) error {
 	// if this failed, it means the task is malformed, probably has invalid
 	// signature, go directly to task failed without checking whether to retry
 	if err != nil {
-		worker.taskFailed(signature, err)
+		_ = worker.taskFailed(signature, err)
 		return err
 	}
 
@@ -211,8 +212,8 @@ func (worker *Worker) taskRetry(signature *tasks.Signature) error {
 	// Decrement the retry counter, when it reaches 0, we won't retry again
 	signature.RetryCount--
 
-	if worker.timeOutFunc != nil {
-		signature.RetryTimeout = worker.timeOutFunc(signature)
+	if worker.timeOutHandler != nil {
+		signature.RetryTimeout = worker.timeOutHandler(signature)
 	} else {
 		// Increase retry timeout
 		signature.RetryTimeout = retry.FibonacciNext(signature.RetryTimeout)
@@ -285,7 +286,8 @@ func (worker *Worker) taskSucceeded(signature *tasks.Signature, taskResults []*t
 			}
 		}
 
-		worker.server.SendTask(successTask)
+		_, _ = worker.server.SendTask(successTask)
+
 	}
 
 	// If the task was not part of a group, just return
@@ -314,7 +316,12 @@ func (worker *Worker) taskSucceeded(signature *tasks.Signature, taskResults []*t
 
 	// Defer purging of group meta queue if we are using AMQP backend
 	if worker.hasAMQPBackend() {
-		defer worker.server.GetBackend().PurgeGroupMeta(signature.GroupUUID)
+		defer func(backend iface.Backend, groupUUID string) {
+			err := backend.PurgeGroupMeta(groupUUID)
+			if err != nil {
+
+			}
+		}(worker.server.GetBackend(), signature.GroupUUID)
 	}
 
 	// Trigger chord callback
@@ -373,13 +380,13 @@ func (worker *Worker) taskSucceeded(signature *tasks.Signature, taskResults []*t
 func (worker *Worker) taskFailed(signature *tasks.Signature, taskErr error) error {
 	// Update task state to FAILURE
 	if err := worker.server.GetBackend().SetStateFailure(signature, taskErr.Error()); err != nil {
-		return fmt.Errorf("Set state to 'failure' for task %s returned error: %s", signature.UUID, err)
+		return fmt.Errorf("set state to 'failure' for task %s returned error: %s", signature.UUID, err)
 	}
 
 	if worker.errorHandler != nil {
 		worker.errorHandler(taskErr)
 	} else {
-		log.ERROR.Printf("Failed processing task %s. Error = %v", signature.UUID, taskErr)
+		log.ERROR.Printf("failed processing task %s. Error = %v", signature.UUID, taskErr)
 	}
 
 	// Trigger error callbacks
@@ -390,7 +397,7 @@ func (worker *Worker) taskFailed(signature *tasks.Signature, taskErr error) erro
 			Value: taskErr.Error(),
 		}}, errorTask.Args...)
 		errorTask.Args = args
-		worker.server.SendTask(errorTask)
+		_,_ = worker.server.SendTask(errorTask)
 	}
 
 	if signature.StopTaskDeletionOnError {
@@ -429,7 +436,7 @@ func (worker *Worker) SetPreConsumeHandler(handler func(*Worker) bool) {
 
 //SetTimeoutFunc sets a timeout for the worker to determine fibonacci or custom
 func (worker *Worker) SetTimeoutFunc(timeoutFunc func(*tasks.Signature) int) {
-	worker.timeOutFunc = timeoutFunc
+	worker.timeOutHandler = timeoutFunc
 }
 
 //GetServer returns server

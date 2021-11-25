@@ -30,7 +30,7 @@ type Worker struct {
 	preTaskHandler    func(*tasks.Signature)
 	postTaskHandler   func(*tasks.Signature)
 	preConsumeHandler func(*Worker) bool
-	timeOutFunc       func(*tasks.Signature) int
+	timeOutHandler    func(*tasks.Signature) int
 }
 
 var (
@@ -211,8 +211,8 @@ func (worker *Worker) taskRetry(signature *tasks.Signature) error {
 	// Decrement the retry counter, when it reaches 0, we won't retry again
 	signature.RetryCount--
 
-	if worker.timeOutFunc != nil {
-		signature.RetryTimeout = worker.timeOutFunc(signature)
+	if worker.timeOutHandler != nil {
+		signature.RetryTimeout = worker.timeOutHandler(signature)
 	} else {
 		// Increase retry timeout
 		signature.RetryTimeout = retry.FibonacciNext(signature.RetryTimeout)
@@ -415,6 +415,11 @@ func (worker *Worker) SetErrorHandler(handler func(err error)) {
 //SetPreTaskHandler sets a custom handler func before a job is started
 func (worker *Worker) SetPreTaskHandler(handler func(*tasks.Signature)) {
 	worker.preTaskHandler = handler
+}
+
+//SetTimeoutFunc sets a custom timeout func
+func (worker *Worker) SetTimeoutHandler(handler func(*tasks.Signature) int) {
+	worker.timeOutFunc = handler
 }
 
 //SetPostTaskHandler sets a custom handler for the end of a job
