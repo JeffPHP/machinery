@@ -434,9 +434,9 @@ func (worker *Worker) SetPreConsumeHandler(handler func(*Worker) bool) {
 	worker.preConsumeHandler = handler
 }
 
-//SetTimeoutFunc sets a timeout for the worker to determine fibonacci or custom
-func (worker *Worker) SetTimeoutFunc(timeoutFunc func(*tasks.Signature) int) {
-	worker.timeOutHandler = timeoutFunc
+//SetTimeoutHandler sets a timeout for the worker to determine fibonacci or custom
+func (worker *Worker) SetTimeoutHandler(handler func(*tasks.Signature) int) {
+	worker.timeOutHandler = handler
 }
 
 //GetServer returns server

@@ -417,9 +417,9 @@ func (worker *Worker) SetPreTaskHandler(handler func(*tasks.Signature)) {
 	worker.preTaskHandler = handler
 }
 
-//SetTimeoutFunc sets a custom timeout func
+//SetTimeoutHandler sets a custom timeout function
 func (worker *Worker) SetTimeoutHandler(handler func(*tasks.Signature) int) {
-	worker.timeOutFunc = handler
+	worker.timeOutHandler = handler
 }
 
 //SetPostTaskHandler sets a custom handler for the end of a job
