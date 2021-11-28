@@ -39,6 +39,8 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Backend {
 	}
 
 	ropt := &redis.UniversalOptions{
+		Addrs: addrs,
+		Password: b.password,
 		DB: db,
 	}
 	parts := strings.Split(addrs[0], "@")
@@ -50,8 +52,6 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Backend {
 			ropt.Username = parts[0]
 			ropt.Password = parts[0]
 		}
-	} else{
-		ropt.Addrs = addrs
 	}
 
 	if cnf.Redis != nil {

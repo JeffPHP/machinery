@@ -27,6 +27,7 @@ func New(cnf *config.Config, addrs []string, db, retries int) Lock {
 	lock := Lock{retries: retries}
 
 	ropt := &redis.UniversalOptions{
+		Addrs: addrs,
 		DB: db,
 	}
 	parts := strings.Split(addrs[0], "@")
@@ -38,8 +39,6 @@ func New(cnf *config.Config, addrs []string, db, retries int) Lock {
 			ropt.Username = parts[0]
 			ropt.Password = parts[0]
 		}
-	} else{
-		ropt.Addrs = addrs
 	}
 
 	if cnf.Redis != nil {

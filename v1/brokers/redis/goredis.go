@@ -41,6 +41,7 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Broker {
 	b := &BrokerGR{Broker: common.NewBroker(cnf)}
 
 	ropt := &redis.UniversalOptions{
+		Addrs: addrs,
 		DB: db,
 	}
 	parts := strings.Split(addrs[0], "@")
@@ -52,8 +53,6 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Broker {
 			ropt.Username = parts[0]
 			ropt.Password = parts[0]
 		}
-	} else{
-		ropt.Addrs = addrs
 	}
 
 	if cnf.Redis != nil {
