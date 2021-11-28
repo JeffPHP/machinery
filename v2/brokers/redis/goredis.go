@@ -10,6 +10,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	log2 "log"
 
 	"github.com/go-redis/redis/v8"
 	"github.com/go-redsync/redsync/v4"
@@ -51,7 +52,7 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Broker {
 		parts := strings.Split(parts[1], ":")
 		if len(parts) == 2 {
 			ropt.Username = parts[0]
-			ropt.Password = parts[0]
+			ropt.Password = parts[1]
 		}
 	}
 
@@ -59,6 +60,8 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Broker {
 		ropt.MasterName = cnf.Redis.MasterName
 	}
 	ropt.TLSConfig = cnf.TLSConfig
+
+	log2.Printf("%+v", ropt)
 
 	b.rclient = redis.NewUniversalClient(ropt)
 	if cnf.Redis.DelayedTasksKey != "" {
