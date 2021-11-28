@@ -48,10 +48,10 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Broker {
 	if len(parts) == 2 {
 		ropt.Password = parts[0]
 		ropt.Addrs[0] = parts[1]
-		parts := strings.Split(parts[1], ":")
-		if len(parts) == 2 {
-			ropt.Username = parts[0]
-			ropt.Password = parts[1]
+		userParts := strings.Split(parts[0], ":")
+		if len(userParts) == 2 {
+			ropt.Username = userParts[0]
+			ropt.Password = userParts[1]
 		}
 	}
 
