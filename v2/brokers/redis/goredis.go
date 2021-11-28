@@ -56,6 +56,7 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Broker {
 	if cnf.Redis != nil {
 		ropt.MasterName = cnf.Redis.MasterName
 	}
+	ropt.TLSConfig = cnf.TLSConfig
 
 	b.rclient = redis.NewUniversalClient(ropt)
 	if cnf.Redis.DelayedTasksKey != "" {

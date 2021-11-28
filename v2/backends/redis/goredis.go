@@ -52,6 +52,7 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Backend {
 	if cnf.Redis != nil {
 		ropt.MasterName = cnf.Redis.MasterName
 	}
+	ropt.TLSConfig = cnf.TLSConfig
 
 	b.rclient = redis.NewUniversalClient(ropt)
 	b.redsync = redsync.New(redsyncgoredis.NewPool(b.rclient))

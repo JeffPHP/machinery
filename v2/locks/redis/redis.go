@@ -42,6 +42,8 @@ func New(cnf *config.Config, addrs []string, db, retries int) Lock {
 	if cnf.Redis != nil {
 		ropt.MasterName = cnf.Redis.MasterName
 	}
+	ropt.TLSConfig = cnf.TLSConfig
+
 
 	lock.rclient = redis.NewUniversalClient(ropt)
 

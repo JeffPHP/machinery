@@ -55,7 +55,9 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Broker {
 	}
 	if cnf.Redis != nil {
 		ropt.MasterName = cnf.Redis.MasterName
+
 	}
+	ropt.TLSConfig = cnf.TLSConfig
 
 	if cnf.Redis != nil && cnf.Redis.ClusterMode {
 		b.rclient = redis.NewClusterClient(ropt.Cluster())
