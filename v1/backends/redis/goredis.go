@@ -37,22 +37,26 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Backend {
 	b := &BackendGR{
 		Backend: common.NewBackend(cnf),
 	}
-	parts := strings.Split(addrs[0], "@")
-	if len(parts) == 2 {
-		// with passwrod
-		b.password = parts[0]
-		addrs[0] = parts[1]
-	}
 
 	ropt := &redis.UniversalOptions{
-		Addrs:    addrs,
-		DB:       db,
-		Password: b.password,
+		DB: db,
 	}
+	parts := strings.Split(addrs[0], "@")
+	if len(parts) == 2 {
+		ropt.Password = parts[0]
+		ropt.Addrs[0] = parts[1]
+		parts := strings.Split(parts[1], ":")
+		if len(parts) == 2 {
+			ropt.Username = parts[0]
+			ropt.Password = parts[0]
+		}
+	} else{
+		ropt.Addrs = addrs
+	}
+
 	if cnf.Redis != nil {
 		ropt.MasterName = cnf.Redis.MasterName
 	}
-
 	ropt.TLSConfig = cnf.TLSConfig
 
 	if cnf.Redis != nil && cnf.Redis.ClusterMode {
