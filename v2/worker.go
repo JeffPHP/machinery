@@ -213,7 +213,7 @@ func (worker *Worker) taskRetry(signature *tasks.Signature) error {
 
 	if worker.timeOutHandler != nil {
 		signature.RetryTimeout = worker.timeOutHandler(signature)
-	} else {
+	} else if !signature.RetryDisableFibonacci {
 		// Increase retry timeout
 		signature.RetryTimeout = retry.FibonacciNext(signature.RetryTimeout)
 	}

@@ -56,6 +56,7 @@ type Signature struct {
 	Immutable      bool
 	RetryCount     int
 	RetryTimeout   int
+	RetryDisableFibonacci bool
 	OnSuccess      []*Signature
 	OnError        []*Signature
 	ChordCallback  *Signature
