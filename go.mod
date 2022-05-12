@@ -9,7 +9,7 @@ require (
 	github.com/aws/aws-sdk-go v1.37.16
 	github.com/bradfitz/gomemcache v0.0.0-20190913173617-a41fca850d0b
 	github.com/cpuguy83/go-md2man/v2 v2.0.0 // indirect
-	github.com/go-redis/redis/v8 v8.6.0
+	github.com/go-redis/redis/v8 v8.11.5
 	github.com/go-redsync/redsync/v4 v4.0.4
 	github.com/golang/snappy v0.0.2 // indirect
 	github.com/gomodule/redigo v1.8.8
@@ -27,6 +27,7 @@ require (
 	github.com/xdg/stringprep v1.0.0 // indirect
 	go.mongodb.org/mongo-driver v1.4.6
 	go.opencensus.io v0.22.6 // indirect
+	go.opentelemetry.io/otel v0.17.0 // indirect
 	golang.org/x/crypto v0.0.0-20201221181555-eec23a3978ad // indirect
 	golang.org/x/oauth2 v0.0.0-20210201163806-010130855d6c // indirect
 	gopkg.in/yaml.v2 v2.4.0

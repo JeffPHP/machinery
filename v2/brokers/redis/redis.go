@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/go-redsync/redsync/v4"
 	redsyncredis "github.com/go-redsync/redsync/v4/redis/redigo"
 	"github.com/gomodule/redigo/redis"
 

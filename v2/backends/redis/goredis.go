@@ -8,6 +8,8 @@ import (
 	"sync"
 	"time"
 
+	"github.com/go-redis/redis/v8"
+	"github.com/go-redsync/redsync/v4"
 	redsyncgoredis "github.com/go-redsync/redsync/v4/redis/goredis/v8"
 
 	"github.com/jeffphp/machinery/v2/backends/iface"

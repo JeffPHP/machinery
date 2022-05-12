@@ -11,6 +11,9 @@ import (
 	"sync"
 	"time"
 
+	"github.com/go-redis/redis/v8"
+	"github.com/go-redsync/redsync/v4"
+
 	"github.com/jeffphp/machinery/v2/brokers/errs"
 	"github.com/jeffphp/machinery/v2/brokers/iface"
 	"github.com/jeffphp/machinery/v2/common"

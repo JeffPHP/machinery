@@ -6,6 +6,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/go-redis/redis/v8"
 	"github.com/jeffphp/machinery/v2/config"
 )
 
