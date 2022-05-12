@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/RichardKnop/machinery/v1"
-	"github.com/RichardKnop/machinery/v1/config"
+	"github.com/jeffphp/machinery/v1"
+	"github.com/jeffphp/machinery/v1/config"
 )
 
 func TestSQSAmqp(t *testing.T) {

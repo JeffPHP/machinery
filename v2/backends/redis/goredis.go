@@ -8,15 +8,13 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-redis/redis/v8"
-	"github.com/go-redsync/redsync/v4"
 	redsyncgoredis "github.com/go-redsync/redsync/v4/redis/goredis/v8"
 
-	"github.com/RichardKnop/machinery/v2/backends/iface"
-	"github.com/RichardKnop/machinery/v2/common"
-	"github.com/RichardKnop/machinery/v2/config"
-	"github.com/RichardKnop/machinery/v2/log"
-	"github.com/RichardKnop/machinery/v2/tasks"
+	"github.com/jeffphp/machinery/v2/backends/iface"
+	"github.com/jeffphp/machinery/v2/common"
+	"github.com/jeffphp/machinery/v2/config"
+	"github.com/jeffphp/machinery/v2/log"
+	"github.com/jeffphp/machinery/v2/tasks"
 )
 
 // BackendGR represents a Redis result backend
@@ -39,9 +37,9 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Backend {
 	}
 
 	ropt := &redis.UniversalOptions{
-		Addrs: addrs,
+		Addrs:    addrs,
 		Password: b.password,
-		DB: db,
+		DB:       db,
 	}
 	parts := strings.Split(addrs[0], "@")
 	if len(parts) == 2 {

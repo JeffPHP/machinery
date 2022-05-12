@@ -10,17 +10,17 @@ import (
 	"github.com/google/uuid"
 	"github.com/robfig/cron/v3"
 
-	"github.com/RichardKnop/machinery/v1/backends/result"
-	"github.com/RichardKnop/machinery/v1/brokers/eager"
-	"github.com/RichardKnop/machinery/v1/config"
-	"github.com/RichardKnop/machinery/v1/log"
-	"github.com/RichardKnop/machinery/v1/tasks"
-	"github.com/RichardKnop/machinery/v1/tracing"
-	"github.com/RichardKnop/machinery/v1/utils"
+	"github.com/jeffphp/machinery/v1/backends/result"
+	"github.com/jeffphp/machinery/v1/brokers/eager"
+	"github.com/jeffphp/machinery/v1/config"
+	"github.com/jeffphp/machinery/v1/log"
+	"github.com/jeffphp/machinery/v1/tasks"
+	"github.com/jeffphp/machinery/v1/tracing"
+	"github.com/jeffphp/machinery/v1/utils"
 
-	backendsiface "github.com/RichardKnop/machinery/v1/backends/iface"
-	brokersiface "github.com/RichardKnop/machinery/v1/brokers/iface"
-	lockiface "github.com/RichardKnop/machinery/v1/locks/iface"
+	backendsiface "github.com/jeffphp/machinery/v1/backends/iface"
+	brokersiface "github.com/jeffphp/machinery/v1/brokers/iface"
+	lockiface "github.com/jeffphp/machinery/v1/locks/iface"
 	opentracing "github.com/opentracing/opentracing-go"
 )
 

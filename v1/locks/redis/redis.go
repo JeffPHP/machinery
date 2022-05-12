@@ -6,8 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/RichardKnop/machinery/v1/config"
-	"github.com/go-redis/redis/v8"
+	"github.com/jeffphp/machinery/v1/config"
 )
 
 var (
@@ -28,7 +27,7 @@ func New(cnf *config.Config, addrs []string, db, retries int) Lock {
 
 	ropt := &redis.UniversalOptions{
 		Addrs: addrs,
-		DB: db,
+		DB:    db,
 	}
 	parts := strings.Split(addrs[0], "@")
 	if len(parts) == 2 {

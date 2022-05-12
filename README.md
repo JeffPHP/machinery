@@ -7,14 +7,14 @@
 Machinery is an asynchronous task queue/job queue based on distributed message passing.
 
 [![Travis Status for RichardKnop/machinery](https://travis-ci.org/RichardKnop/machinery.svg?branch=master&label=linux+build)](https://travis-ci.org/RichardKnop/machinery)
-[![godoc for RichardKnop/machinery](https://godoc.org/github.com/nathany/looper?status.svg)](http://godoc.org/github.com/RichardKnop/machinery/v1)
-[![codecov for RichardKnop/machinery](https://codecov.io/gh/RichardKnop/machinery/branch/master/graph/badge.svg)](https://codecov.io/gh/RichardKnop/machinery)
+[![godoc for RichardKnop/machinery](https://godoc.org/github.com/nathany/looper?status.svg)](http://godoc.org/github.com/jeffphp/machinery/v1)
+[![codecov for RichardKnop/machinery](https://codecov.io/gh/jeffphp/machinery/branch/master/graph/badge.svg)](https://codecov.io/gh/RichardKnop/machinery)
 
 [![Go Report Card](https://goreportcard.com/badge/github.com/RichardKnop/machinery)](https://goreportcard.com/report/github.com/RichardKnop/machinery)
 [![GolangCI](https://golangci.com/badges/github.com/RichardKnop/machinery.svg)](https://golangci.com)
 [![OpenTracing Badge](https://img.shields.io/badge/OpenTracing-enabled-blue.svg)](http://opentracing.io)
 
-[![Sourcegraph for RichardKnop/machinery](https://sourcegraph.com/github.com/RichardKnop/machinery/-/badge.svg)](https://sourcegraph.com/github.com/RichardKnop/machinery?badge)
+[![Sourcegraph for RichardKnop/machinery](https://sourcegraph.com/github.com/jeffphp/machinery/-/badge.svg)](https://sourcegraph.com/github.com/RichardKnop/machinery?badge)
 [![Donate Bitcoin](https://img.shields.io/badge/donate-bitcoin-orange.svg)](https://richardknop.github.io/donate/)
 
 ---
@@ -67,10 +67,10 @@ Instead of factory, you will need to inject broker and backend objects to the se
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v2"
-  backendsiface "github.com/RichardKnop/machinery/v2/backends/iface"
-  brokersiface "github.com/RichardKnop/machinery/v2/brokers/iface"
-  locksiface "github.com/RichardKnop/machinery/v2/locks/iface"
+  "github.com/jeffphp/machinery/v2"
+  backendsiface "github.com/jeffphp/machinery/v2/backends/iface"
+  brokersiface "github.com/jeffphp/machinery/v2/brokers/iface"
+  locksiface "github.com/jeffphp/machinery/v2/locks/iface"
 )
 
 var broker brokersiface.Broker
@@ -85,13 +85,13 @@ server := machinery.NewServer(cnf, broker, backend, lock)
 Add the Machinery library to your $GOPATH/src:
 
 ```sh
-go get github.com/RichardKnop/machinery/v1
+go get github.com/jeffphp/machinery/v1
 ```
 
 Or to get experimental v2 release:
 
 ```sh
-go get github.com/RichardKnop/machinery/v2
+go get github.com/jeffphp/machinery/v2
 ```
 
 First, you will need to define some tasks. Look at sample tasks in `example/tasks/tasks.go` to see a few examples.
@@ -392,7 +392,7 @@ type Interface interface {
 }
 ```
 
-Then just set the logger in your setup code by calling `Set` function exported by `github.com/RichardKnop/machinery/v1/log` package:
+Then just set the logger in your setup code by calling `Set` function exported by `github.com/jeffphp/machinery/v1/log` package:
 
 ```go
 log.Set(myCustomLogger)
@@ -404,8 +404,8 @@ A Machinery library must be instantiated before use. The way this is done is by 
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/config"
-  "github.com/RichardKnop/machinery/v1"
+  "github.com/jeffphp/machinery/v1/config"
+  "github.com/jeffphp/machinery/v1"
 )
 
 var cnf = &config.Config{
@@ -632,7 +632,7 @@ Tasks can be called by passing an instance of `Signature` to an `Server` instanc
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/tasks"
+  "github.com/jeffphp/machinery/v1/tasks"
 )
 
 signature := &tasks.Signature{
@@ -797,8 +797,8 @@ Running a single asynchronous task is fine but often you will want to design a w
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/tasks"
-  "github.com/RichardKnop/machinery/v1"
+  "github.com/jeffphp/machinery/v1/tasks"
+  "github.com/jeffphp/machinery/v1"
 )
 
 signature1 := tasks.Signature{
@@ -858,8 +858,8 @@ for _, asyncResult := range asyncResults {
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/tasks"
-  "github.com/RichardKnop/machinery/v1"
+  "github.com/jeffphp/machinery/v1/tasks"
+  "github.com/jeffphp/machinery/v1"
 )
 
 signature1 := tasks.Signature{
@@ -934,8 +934,8 @@ for _, result := range results {
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/tasks"
-  "github.com/RichardKnop/machinery/v1"
+  "github.com/jeffphp/machinery/v1/tasks"
+  "github.com/jeffphp/machinery/v1"
 )
 
 signature1 := tasks.Signature{
@@ -1020,7 +1020,7 @@ Machinery now supports scheduling periodic tasks and workflows. See examples bel
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/tasks"
+  "github.com/jeffphp/machinery/v1/tasks"
 )
 
 signature := &tasks.Signature{
@@ -1046,8 +1046,8 @@ if err != nil {
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/tasks"
-  "github.com/RichardKnop/machinery/v1"
+  "github.com/jeffphp/machinery/v1/tasks"
+  "github.com/jeffphp/machinery/v1"
 )
 
 signature1 := tasks.Signature{
@@ -1089,8 +1089,8 @@ if err != nil {
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/tasks"
-  "github.com/RichardKnop/machinery/v1"
+  "github.com/jeffphp/machinery/v1/tasks"
+  "github.com/jeffphp/machinery/v1"
 )
 
 signature1 := tasks.Signature{
@@ -1142,8 +1142,8 @@ if err != nil {
 
 ```go
 import (
-  "github.com/RichardKnop/machinery/v1/tasks"
-  "github.com/RichardKnop/machinery/v1"
+  "github.com/jeffphp/machinery/v1/tasks"
+  "github.com/jeffphp/machinery/v1"
 )
 
 signature1 := tasks.Signature{

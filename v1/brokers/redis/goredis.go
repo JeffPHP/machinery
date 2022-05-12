@@ -11,15 +11,12 @@ import (
 	"sync"
 	"time"
 
-	"github.com/go-redis/redis/v8"
-	"github.com/go-redsync/redsync/v4"
-
-	"github.com/RichardKnop/machinery/v1/brokers/errs"
-	"github.com/RichardKnop/machinery/v1/brokers/iface"
-	"github.com/RichardKnop/machinery/v1/common"
-	"github.com/RichardKnop/machinery/v1/config"
-	"github.com/RichardKnop/machinery/v1/log"
-	"github.com/RichardKnop/machinery/v1/tasks"
+	"github.com/jeffphp/machinery/v1/brokers/errs"
+	"github.com/jeffphp/machinery/v1/brokers/iface"
+	"github.com/jeffphp/machinery/v1/common"
+	"github.com/jeffphp/machinery/v1/config"
+	"github.com/jeffphp/machinery/v1/log"
+	"github.com/jeffphp/machinery/v1/tasks"
 )
 
 // BrokerGR represents a Redis broker
@@ -42,7 +39,7 @@ func NewGR(cnf *config.Config, addrs []string, db int) iface.Broker {
 
 	ropt := &redis.UniversalOptions{
 		Addrs: addrs,
-		DB: db,
+		DB:    db,
 	}
 	parts := strings.Split(addrs[0], "@")
 	if len(parts) == 2 {
