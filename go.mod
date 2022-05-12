@@ -12,7 +12,7 @@ require (
 	github.com/go-redis/redis/v8 v8.6.0
 	github.com/go-redsync/redsync/v4 v4.0.4
 	github.com/golang/snappy v0.0.2 // indirect
-	github.com/gomodule/redigo v2.0.0+incompatible
+	github.com/gomodule/redigo v1.8.8
 	github.com/google/uuid v1.2.0
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/kelseyhightower/envconfig v1.4.0
